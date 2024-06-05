@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import EditTask from '../modals/EditTask';
+import { Card as MuiCard, CardContent, Typography, Checkbox, Button, Box } from '@mui/material';
+
 
 const Card = ({ taskObj, index, deleteTask, updateListArray }) => {
     const [modal, setModal] = useState(false);
-    const [completed, setCompleted] = useState(false); 
+
 
     const categoryColors = {
         Work: {
@@ -38,24 +40,46 @@ const Card = ({ taskObj, index, deleteTask, updateListArray }) => {
     };
 
     const toggleCompleted = () => {
-        setCompleted(!completed);
-    };
+        updateListArray({ ...taskObj, completed: !taskObj.completed }, index);
+    }
+
 
     return (
-        <div className="card-wrapper mr-5">
-            <div className="card-top" style={{ "backgroundColor": completed ? "#9ACD32" : colors.primaryColor }}></div> {/* 완료 시 다른 색상으로 변경 */}
-            <div className="task-holder">
-                <span className="card-header" style={{ "backgroundColor": colors.secondaryColor, "borderRadius": "10px" }}>{taskObj.Name + ' (' + taskObj.Category + ')'}</span>
-                <p className="mt-3">{taskObj.Description}</p>
-                <p>{taskObj.Deadline ? new Date(taskObj.Deadline).toLocaleDateString() : "No deadline"}</p>
-                <div style={{ "position": "absolute", "top": "160px", "left": "160px" }}>
-                    <input type="checkbox" checked={completed} onChange={toggleCompleted} />
-                    <button style={{ "color": colors.primaryColor, "cursor": "pointer" }} onClick={() => setModal(true)}>Edit</button>
-                    <button style={{ "color": colors.primaryColor, "cursor": "pointer" }} onClick={handleDelete}>Delete</button>
-                </div>
-            </div>
+        <MuiCard className="card-wrapper">
+            <Box
+                className="card-top"
+                sx={{
+                    backgroundColor: taskObj.completed ? '#9ACD32' : colors.primaryColor,
+                }}
+            ></Box>
+            <CardContent className="task-holder">
+                <Typography
+                    variant="h6"
+                    className="card-header"
+                    sx={{
+                        backgroundColor: taskObj.completed ? '#E8F5E1' : colors.secondaryColor,
+                    }}
+                >
+                    {`${taskObj.Name} (${taskObj.Category})`}
+                </Typography>
+                <Typography variant="body1" className="mt-3">
+                    {taskObj.Description}
+                </Typography>
+                <Typography variant="body2">
+                    {taskObj.Deadline ? new Date(taskObj.Deadline).toLocaleDateString() : 'No deadline'}
+                </Typography>
+                <Box className="actions">
+                    <Checkbox checked={taskObj.completed} onChange={toggleCompleted} />
+                    <Button onClick={() => setModal(true)}>
+                        Edit
+                    </Button>
+                    <Button  onClick={handleDelete}>
+                        Delete
+                    </Button>
+                </Box>
+            </CardContent>
             <EditTask modal={modal} toggle={toggle} updateTask={updateTask} taskObj={taskObj} />
-        </div>
+        </MuiCard>
     );
 };
 

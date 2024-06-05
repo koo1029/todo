@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, MenuItem } from '@mui/material';
+import { Typography, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, MenuItem } from '@mui/material';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -8,6 +8,7 @@ const CreateTaskPopup = ({ modal, toggle, save }) => {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [deadline, setDeadline] = useState(null);
+    const [completed, setCompleted] = useState(false); 
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,13 +27,15 @@ const CreateTaskPopup = ({ modal, toggle, save }) => {
             Name: taskName,
             Description: description,
             Category: category,
-            Deadline: deadline
+            Deadline: deadline,
+            completed: completed
         };
         save(taskObj);
         setTaskName('');
         setDescription('');
         setCategory('');
         setDeadline(null);
+        setCompleted(false);
     };
 
     return (
@@ -40,7 +43,7 @@ const CreateTaskPopup = ({ modal, toggle, save }) => {
             <DialogTitle>Create Task</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    <div className="form-group">
+                    <Box className="form-group">
                         <TextField
                             label="Task Name"
                             variant="outlined"
@@ -50,8 +53,8 @@ const CreateTaskPopup = ({ modal, toggle, save }) => {
                             name="taskName"
                             margin="dense"
                         />
-                    </div>
-                    <div className="form-group">
+                    </Box>
+                    <Box className="form-group">
                         <TextField
                             label="Description"
                             variant="outlined"
@@ -63,8 +66,8 @@ const CreateTaskPopup = ({ modal, toggle, save }) => {
                             name="description"
                             margin="dense"
                         />
-                    </div>
-                    <div className="form-group">
+                    </Box>
+                    <Box className="form-group">
                         <TextField
                             select
                             label="Category"
@@ -79,16 +82,16 @@ const CreateTaskPopup = ({ modal, toggle, save }) => {
                             <MenuItem value="Personal">Personal</MenuItem>
                             <MenuItem value="Urgent">Urgent</MenuItem>
                         </TextField>
-                    </div>
-                    <div className="form-group">
-                        <label>Deadline</label>
+                    </Box>
+                    <Box className="form-group">
+                        <Typography>Deadline</Typography>
                         <DatePicker
                             selected={deadline}
                             onChange={(date) => setDeadline(date)}
                             dateFormat="MMMM d, yyyy"
                             className="form-control"
                         />
-                    </div>
+                    </Box>
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

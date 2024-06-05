@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import CreateTask from '../modals/CreateTask'
 import Card from './Card';
+import { Typography, Box, Button } from '@mui/material';
 
 const TodoList = () => {
     const [modal, setModal] = useState(false);
@@ -47,13 +48,14 @@ const TodoList = () => {
 
     return (
         <>
-            <div className = "header text-center">
-                <h3>Todo List</h3>
-                <button className = "btn btn-primary mt-2" onClick = {() => setModal(true)} >Create Task</button>
-            </div>
-            <div className = "task-container">
+            <Box className = "header text-center">
+                <Typography variant="h3">Todo List</Typography> 
+                <Button variant="contained" color="primary" className = "btn btn-primary mt-2" onClick = {() => setModal(true)} >Create Task</Button>
+
+            </Box>
+            <Box className = "task-container">
             {taskList && taskList.map((obj , index) => <Card taskObj = {obj} index = {index} deleteTask = {deleteTask} updateListArray = {updateListArray}/> )}
-            </div>
+            </Box>
             <CreateTask toggle = {toggle} modal = {modal} save = {saveTask}/>
         </>
     );
